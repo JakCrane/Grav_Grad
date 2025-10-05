@@ -9,3 +9,9 @@ Samples: 691K of event 'cycles', Event count (approx.): 591300722528
 
 
 fix so it plots contours knowing phi is proportional to 1/r
+
+row major matrices matrix(i * Nx + j)
+
+sbatch SLURM.slr to run
+
+ran for 10m and did 2 frames with N = 500

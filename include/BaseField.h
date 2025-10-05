@@ -3,12 +3,6 @@
 #include <vector>
 #include <cmath>
 
-// Silence Eigen's noisy warnings
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#include <Eigen/Dense>
-#pragma GCC diagnostic pop
-
 #include <fstream>
 #include <iostream>
 // #include "FieldContext.h"
@@ -53,7 +47,7 @@ class BaseField {
         std::array<double, 2> gradientAt(double x, double y) const;
 
         // returns copy of underlying domain matrix
-        Eigen::MatrixXd getDomain() const { return m_domain; }
+        std::vector<double> getDomain() const { return m_domain; }
 
         void exportCSV(const std::string& filename, int frame=0) const;
 
@@ -64,7 +58,12 @@ class BaseField {
         const int m_Nx, m_Ny;
         const double m_x_min, m_x_max, m_y_min, m_y_max;
         const double m_dx, m_dy;
-        Eigen::MatrixXd m_domain;
+        std::vector<double> m_domain;
+
+        template <typename T>
+        static constexpr const T& clamp(const T& v, const T& lo, const T& hi) {
+            return (v < lo) ? lo : (hi < v) ? hi: v;
+        }
 
 
 };

@@ -40,7 +40,6 @@ int main() {
     fout_accel_1 << "frame,reading\n";
     fout_accel_1.close();
 
-
     if (problem == "point") {
         mass_field.setupPoint({0.0, 0.0}, 1.0);
     } else if (problem == "square") {

@@ -18,8 +18,7 @@ class GravitationalPotentialField : public BaseField {
         // Add member variables if needed
         double m_G, m_M;
         
-        Eigen::MatrixXd m_current_mass_field;
-        Eigen::MatrixXd m_current_r_inv_field;
+        std::vector<double> m_current_mass_field;
         /**
          * @brief Computes the gravitational potential at a given point (x, y) due to a point mass.
          *
