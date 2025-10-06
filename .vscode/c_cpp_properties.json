@@ -5,7 +5,6 @@
             "includePath": [
                 "${workspaceFolder}/src",
                 "${workspaceFolder}/include",
-                "/usr/include/eigen3",   // 👈 add this
                 "/usr/include"
             ],
             "defines": [],

@@ -1,19 +1,20 @@
 #pragma once
-#include "BaseField.h"
+#include "BaseFields/ScalarField.h"
 
 
-class MassField : public BaseField {
+class MassField : public ScalarField {
     public:
-        using BaseField::BaseField; // Inherit constructors
-
+        /** 
+         * @brief Constructs a field with a square region of non-zero density centered at initial position.
+         */
+        MassField(int N, double size, double side_length=1.0, double density=1.0, std::array<double, 2> initial_position={0.0, 0.0});
         ~MassField() override = default;
 
-        // sets up square region of non-zero density, centered at initial_position
-        void setupSquare(std::array<double, 2> initial_position, double density, double side_length);
-        void setupPoint(std::array<double, 2> initial_position, double density);
-        // updates position of center of square region
-        void updateSquare(std::array<double, 2> mass_pos);
-        void updatePoint(std::array<double, 2> mass_pos);
+        /**
+         * @brief Updates the position of the square mass region to center around mass_pos.
+         */
+        void update(std::array<double, 2> mass_pos);
+
         // prints the domain to console for debugging
         void printDomain() const;
 
@@ -24,5 +25,4 @@ class MassField : public BaseField {
 
         void clearField();
         void fillSquareRegion();
-        void fillPointRegion();
 };
