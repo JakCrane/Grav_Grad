@@ -31,14 +31,6 @@ void BaseField<T>::printInfo() const {
     std::cout << "  X range: [" << m_x_min << ", " << m_x_max << "]\n";
     std::cout << "  Y range: [" << m_y_min << ", " << m_y_max << "]\n";
     std::cout << "  dx: " << m_dx << ", dy: " << m_dy << "\n";
-    std::cout << "  Domain values:\n";
-    for (int i = 0; i < m_Nx; ++i) {
-        for (int j = 0; j < m_Ny; ++j) {
-            std::cout << m_domain[i * m_Ny + j] << " ";
-        }
-        std::cout << "\n";
-    }
-    std::cout << "\n";
 }
 
 template class BaseField<double>;

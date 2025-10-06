@@ -1,34 +1,35 @@
-# Compiler and flags
-CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic -O3 -march=native -fopenmp
-INCLUDEFLAGS = -Iinclude -I/usr/include/eigen3
+# ---- paths & target ----
+SRC_DIR   := src
+INC_DIR   := include
+BUILD_DIR := build
+TARGET    := gravity_sim
 
-SRC_DIR = src
-BUILD_DIR = build
+# ---- toolchain ----
+CXX      := g++
+CXXFLAGS := -std=c++17 -Wall -Wextra -pedantic -O3 -march=native -MMD -MP -I$(INC_DIR)
+LDLIBS   := -fopenmp
+LDFLAGS  :=
 
-# Sources and objects
+# ---- sources/objects ----
+SRCS := $(shell find $(SRC_DIR) -type f -name '*.cpp')
+OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+DEPS := $(OBJS:.o=.d)
 
-SRCS = $(wildcard $(SRC_DIR)/*.cpp) 
-# \
-#         $(wildcard $(SRC_DIR)/*/*.cpp)
-OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS)) # Substitutes the pattern src/*.cpp with build/*.o in the list of source files.
-
-
-# Output binary
-TARGET = gravity_sim
-
-all: $(TARGET)
-
+# ---- build rules ----
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(INCLUDEFLAGS) -o $@ $^
+	$(CXX) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) $(INCLUDEFLAGS) -c $< -o $@
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+-include $(DEPS)
 
+.PHONY: clean list
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -rf $(BUILD_DIR) $(TARGET)
 
-.PHONY: all clean
+# quick debug: show what Make thinks the sources/objects are
+list:
+	@printf "SRCS:\n%s\n\n" $(SRCS)
+	@printf "OBJS:\n%s\n" $(OBJS)
