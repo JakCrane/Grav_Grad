@@ -12,6 +12,7 @@ frames_per_second = 10
 
 # Load CSVs
 df_field = pd.read_csv("potential_field.csv")
+df_field['phi'] = df_field['g_y']
 df_field.loc[df_field["phi"] == -1e6, "phi"] = -1e-6
 frames = sorted(df_field["frame"].unique())
 

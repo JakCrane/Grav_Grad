@@ -1,42 +1,46 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def setup_field_plot(fig, gs):
-    ax_field = fig.add_subplot(gs[:, 0])
-    ax_field.set_aspect("equal")
-    contour = None
-    mass_dot, = ax_field.plot([], [], "ro")
-    accel_dot, = ax_field.plot([], [], "go")
-    return ax_field, contour, mass_dot, accel_dot
+def setup_field_plot(fig, gs, position=(slice(None), 0), aspect="equal"):
+    """
+    Create a field subplot in a flexible GridSpec position.
 
-def update_field(ax_field, subset, frame, contour, mass_dot, accel_dot,
-                 radian_change_per_frame):
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+    gs  : matplotlib.gridspec.GridSpec
+    position : tuple
+        Index or slice into the GridSpec, e.g. (0,0), (1,1), (slice(1,3), 2), etc.
+    aspect : str or float
+        Aspect ratio for the axis.
+
+    Returns
+    -------
+    ax_field : matplotlib.axes.Axes
+    contour  : None (placeholder)
+    """
+    ax_field = fig.add_subplot(gs[position])
+    ax_field.set_aspect(aspect)
+    contour = None
+    return ax_field, contour
+
+def update_field(ax_field, subset_x, subset_y, subset_value, frame, contour):
     # Remove old contour
     if contour:
         for coll in contour.collections:
             coll.remove()
 
-    # invert phi for plotting
-    subset = subset.copy()
-    subset['phi'] = -subset['phi']
+    # # scale
+    # value_min = subset_value.min()
+    # value_max = subset_value.max()
 
-    # scale
-    phi_min = subset["phi"].min()
-    phi_max = subset["phi"].max()
-
-    # if positive values only -> logspace
-    if phi_min > 0:
-        phi_levels = np.logspace(np.log10(phi_min), np.log10(phi_max), 30)
-    else:
-        phi_levels = np.linspace(phi_min, phi_max, 30)
+    # phi_levels = np.linspace(value_min, value_max, 30)
 
     contour = ax_field.tricontourf(
-        subset["x"], subset["y"], subset["phi"],
-        levels=phi_levels,
+        subset_x, subset_y, subset_value,
         cmap="viridis"
     )
 
-    accel_dot.set_data(1.0, 1.0)
     ax_field.set_title(f"Frame {frame}")
 
-    return contour, mass_dot, accel_dot
+    return contour
