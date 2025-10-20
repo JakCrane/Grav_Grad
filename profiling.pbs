@@ -1,0 +1,14 @@
+#! /bin/bash
+#PBS -l select=1:ncpus=8:ompthreads=8:mem=8gb
+#PBS -l walltime=00:10:00
+#PBS -N grav_sim
+
+cd $PBS_O_WORKDIR
+
+module load VTune/2025.0.0
+
+RESULT_DIR="vtune_results_$(date +%Y%m%d_%H%M%S)"
+mkdir -p $RESULT_DIR
+
+# ./gravity_sim
+vtune -collect hotspots -result-dir $RESULT_DIR -- ./gravity_sim

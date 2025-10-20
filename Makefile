@@ -6,7 +6,7 @@ TARGET    := gravity_sim
 
 # ---- toolchain ----
 CXX      := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -pedantic -O3 -march=native -MMD -MP -I$(INC_DIR)
+CXXFLAGS := -Wall -Wextra -pedantic -O3 -g -march=znver2 -MMD -MP -fopenmp -I$(INC_DIR)
 LDLIBS   := -fopenmp
 LDFLAGS  :=
 
@@ -28,6 +28,8 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 .PHONY: clean list
 clean:
 	rm -rf $(BUILD_DIR) $(TARGET)
+	rm -rf vtune_results*
+	rm -rf grav_sim.*
 
 # quick debug: show what Make thinks the sources/objects are
 list:

@@ -28,9 +28,11 @@ int main() {
     double size = 10.0;
 
     int number_of_frames = 50;
+
+    std::cout << "Starting simulation with " << N << "x" << N << " grid for " << number_of_frames << " frames." << std::endl;
     double radian_change_per_frame = 0.1;
 
-    MassField mass_field(N, size, M, 0.2);
+    MassField mass_field(N, size, 0.2, M);
     GravityField grav_field(N, size, mass_field, G);
     // Accelerometer accel_0({1.0, 1.0}, {1.0, 0.0});
     // Accelerometer accel_1({1.0, 1.0}, {0.0, 1.0});
@@ -41,7 +43,7 @@ int main() {
     fout_field.close();
 
     std::ofstream fout_square("square_mass_field.csv");
-    fout_square << "frame,x,y,phi\n";
+    fout_square << "frame,x,y,mass\n";
     fout_square.close();
 
     // std::ofstream fout_accel_0("accelerometer_0.csv");
