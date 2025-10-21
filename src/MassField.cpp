@@ -3,12 +3,28 @@
 
 MassField::MassField(int N, 
                     double size, 
-                    double side_length, 
+                    double side_length_x, 
+                    double side_length_y,
                     double density, 
                     std::array<double, 2> initial_position)  
                     : ScalarField(N, size),
                       m_density(density),
-                      m_side_length(side_length)
+                      m_side_length_x(side_length_x),
+                      m_side_length_y(side_length_y),
+                      m_type(FieldType::RECTANGULAR)
+{
+    update(initial_position);
+}
+
+MassField::MassField(int N, 
+                    double size, 
+                    double radius,
+                    double density, 
+                    std::array<double, 2> initial_position)  
+                    : ScalarField(N, size),
+                      m_density(density),
+                      m_radius(radius),
+                      m_type(FieldType::CIRCULAR)
 {
     update(initial_position);
 }
@@ -17,7 +33,11 @@ void MassField::update(std::array<double, 2> mass_pos)
 {
     m_current_position = mass_pos;
     clearField();
-    fillSquareRegion();
+    if (m_type == FieldType::RECTANGULAR) {
+        fillRectangularRegion();
+    } else if (m_type == FieldType::CIRCULAR) {
+        fillCircularRegion();
+    }
 }
 
 void MassField::clearField() 
@@ -25,35 +45,37 @@ void MassField::clearField()
     std::fill(m_domain.begin(), m_domain.end(), 0.0);
 }
 
-void MassField::fillSquareRegion() 
+void MassField::fillRectangularRegion() 
 {
     for (int i = 0; i < m_Nx; ++i) {
         for (int j = 0; j < m_Ny; ++j) {
             double x = m_x_min + i * (m_x_max - m_x_min) / (m_Nx - 1);
             double y = m_y_min + j * (m_y_max - m_y_min) / (m_Ny - 1);
-            if (std::abs(x - m_current_position[0]) < m_side_length / 2 &&
-                std::abs(y - m_current_position[1]) < m_side_length / 2) {
-                m_domain[i * m_Ny + j] = m_density;
+            if (std::abs(x - m_current_position[0]) < m_side_length_x / 2 &&
+                std::abs(y - m_current_position[1]) < m_side_length_y / 2) {
+                m_domain[i * m_Ny + j] = m_density * m_dx * m_dy;
             }
         }
     }
 }
 
-void MassField::printDomain() const 
+void MassField::fillCircularRegion()
 {
-    std::cout << "SquareMassField Domain (" << m_Nx << "x" << m_Ny << "):" << std::endl;
-    std::cout << "Grid bounds: x=[" << m_x_min << ", " << m_x_max << "], y=[" << m_y_min << ", " << m_y_max << "]" << std::endl;
-    std::cout << "Current position: [" << m_current_position[0] << ", " << m_current_position[1] << "]" << std::endl;
-    std::cout << "Density: " << m_density << ", Side length: " << m_side_length << std::endl;
-    std::cout << "Domain matrix:" << std::endl;
-    
-    // Print the domain matrix with some formatting
-    for (int j = m_Ny - 1; j >= 0; --j) {  // Print from top to bottom (higher y values first)
-        for (int i = 0; i < m_Nx; ++i) {
-            std::cout << std::setw(8) << std::fixed << std::setprecision(2) << m_domain[i * m_Ny + j] << " ";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}
+    const double edge_smooth = 0.00 * m_radius; // Smoothing width at the edge
+    for (int i = 0; i < m_Nx; ++i) {
+        for (int j = 0; j < m_Ny; ++j) {
+            double x = m_x_min + i * (m_x_max - m_x_min) / (m_Nx - 1);
+            double y = m_y_min + j * (m_y_max - m_y_min) / (m_Ny - 1);
 
+            double dx = x - m_current_position[0];
+            double dy = y - m_current_position[1];
+            double r = std::sqrt(dx*dx + dy*dy);
+
+            // Smooth transition over width 'edge_smooth'
+            double transition = 0.5 * (1.0 - std::tanh((r - m_radius) / edge_smooth));
+
+            // transition ≈ 1 inside, ≈ 0 outside
+            m_domain[i * m_Ny + j] = m_density * m_dx * m_dy * transition;
+        }
+    }
+}

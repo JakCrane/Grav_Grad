@@ -12,6 +12,13 @@
 template<class T>
 class BaseField {
     public:
+        // default constructor for empty field
+        BaseField() 
+            : m_Nx(0), m_Ny(0),
+              m_x_min(0.0), m_x_max(0.0), m_y_min(0.0), m_y_max(0.0),
+              m_dx(0.0), m_dy(0.0),
+              m_domain() {}
+
         BaseField(int Nx, int Ny, double x_min, double x_max, double y_min, double y_max);
         BaseField(int N, double size);
 

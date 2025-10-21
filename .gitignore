@@ -3,3 +3,5 @@
 perf*
 *.out
 gravity_sim
+grav_sim.*
+/vtune*

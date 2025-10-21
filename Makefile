@@ -6,7 +6,7 @@ TARGET    := gravity_sim
 
 # ---- toolchain ----
 CXX      := g++
-CXXFLAGS := -Wall -Wextra -pedantic -O3 -g -march=znver2 -MMD -MP -fopenmp -I$(INC_DIR)
+CXXFLAGS := -std=c++23 -Wall -Wextra -pedantic -O3 -g -march=znver2 -MMD -MP -fopenmp -I$(INC_DIR)
 LDLIBS   := -fopenmp
 LDFLAGS  :=
 
@@ -30,6 +30,7 @@ clean:
 	rm -rf $(BUILD_DIR) $(TARGET)
 	rm -rf vtune_results*
 	rm -rf grav_sim.*
+	rm -rf *.csv
 
 # quick debug: show what Make thinks the sources/objects are
 list:

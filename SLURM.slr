@@ -1,9 +1,0 @@
-#! /bin/bash
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
-#SBATCH --time=00:10:00
-#SBATCH --job-name=sim
-#SBATCH --partition=short
-
-./gravity_sim
