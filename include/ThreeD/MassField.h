@@ -35,7 +35,7 @@ class MassField : public ScalarField {
 
     private:
         double m_density;
-        double m_side_length_x;
+        double m_side_length_x; 
         double m_side_length_y;
         double m_side_length_z;
         double m_radius;

@@ -11,7 +11,8 @@ LDLIBS   := -fopenmp
 LDFLAGS  :=
 
 # Choose which folder to EXCLUDE (TwoD or ThreeD)
-EXCLUDE ?= ThreeD
+EXCLUDE ?= TwoD
+# EXCLUDE ?= ThreeD
 
 # ---- sources/objects ----
 SRCS_ALL := $(shell find $(SRC_DIR) -type f -name '*.cpp')

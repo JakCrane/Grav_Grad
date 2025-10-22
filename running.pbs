@@ -1,5 +1,5 @@
 #! /bin/bash
-#PBS -l select=1:ncpus=8:ompthreads=8:mem=8gb
+#PBS -l select=1:ncpus=16:ompthreads=16:mem=8gb
 #PBS -l walltime=00:10:00
 #PBS -N grav_sim
 

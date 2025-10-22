@@ -62,7 +62,7 @@ void GravitationalAccelerationField<false>::update()
                 const double x = getXCoord(i);
                 const double y = getYCoord(j);
                 const double z = getZCoord(k);
-                m_domain[i * m_Ny + j] = computeAcceleration(x, y, z);
+                m_domain[i * m_Ny * m_Nz + j * m_Nz + k] = computeAcceleration(x, y, z);
             }
         }
     }
