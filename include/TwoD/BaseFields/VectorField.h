@@ -1,10 +1,10 @@
 #pragma once
-#include "BaseField.h"
+#include "TwoD/BaseFields/BaseField.h"
 
-class TwoDVectorField : public BaseField<std::array<double, 2>> {
+class VectorField : public BaseField<std::array<double, 2>> {
     public:
         using BaseField<std::array<double, 2>>::BaseField;
-        ~TwoDVectorField() override = default;
+        ~VectorField() override = default;
 
         
         

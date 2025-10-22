@@ -2,12 +2,12 @@
 #ifdef _OPENMP
 #include <omp.h>
 #endif
-#include "BaseFields/TwoDVectorField.h"
-#include "MassField.h"
-#include "GravitationalPotentialField.h"
+#include "ThreeD/BaseFields/VectorField.h"
+#include "ThreeD/MassField.h"
+#include "ThreeD/GravitationalPotentialField.h"
 
 template <bool UsePotential>
-class GravitationalAccelerationField : public TwoDVectorField {
+class GravitationalAccelerationField : public VectorField {
     public:
         GravitationalAccelerationField(int N, double size, const MassField& mass_field, double G);
         ~GravitationalAccelerationField() override = default;
@@ -18,8 +18,8 @@ class GravitationalAccelerationField : public TwoDVectorField {
 
         const MassField* m_mass_field; // current mass field for distributed mass source
         double m_G;
-        const GravitationalPotentialField m_potential_field;
+        GravitationalPotentialField m_potential_field;
 
-        std::array<double, 2> computeAcceleration(const double x, const double y);
+        std::array<double, 3> computeAcceleration(const double x, const double y, const double z);
 
 };

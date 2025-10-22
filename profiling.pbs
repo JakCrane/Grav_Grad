@@ -6,6 +6,7 @@
 cd $PBS_O_WORKDIR
 
 module load VTune/2025.0.0
+module load GCC/14.3.0
 
 RESULT_DIR="vtune_results_$(date +%Y%m%d_%H%M%S)"
 mkdir -p $RESULT_DIR

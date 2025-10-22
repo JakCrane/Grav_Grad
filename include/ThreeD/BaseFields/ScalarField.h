@@ -1,5 +1,5 @@
 #pragma once
-#include "BaseField.h"
+#include "ThreeD/BaseFields/BaseField.h"
 
 class ScalarField : public BaseField<double> {
     public:
@@ -7,9 +7,9 @@ class ScalarField : public BaseField<double> {
         ~ScalarField() override = default;
 
         /**
-         * @brief Computes the gradient (negative spatial derivative) at a given (x, y) position.
+         * @brief Computes the gradient (negative spatial derivative) at a given (x, y, z) position.
          */
-        std::array<double,2> gradientAt(const double x, const double y) const;
+        std::array<double, 3> gradientAt(const double x, const double y, const double z) const;
 
     protected:
         

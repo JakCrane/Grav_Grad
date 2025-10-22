@@ -1,6 +1,6 @@
-#include "BaseFields/TwoDVectorField.h"
+#include "TwoD/BaseFields/VectorField.h"
 
-void TwoDVectorField::doExportCSV(const std::string& filename, const int frame) const {
+void VectorField::doExportCSV(const std::string& filename, const int frame) const {
     std::ofstream fout(filename, std::ios::app); // append mode
     for (int i = 0; i < m_Nx; ++i) {
         const double x = getXCoord(i);

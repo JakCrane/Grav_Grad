@@ -1,6 +1,6 @@
 #pragma once
-#include "BaseFields/ScalarField.h"
-#include "MassField.h"
+#include "TwoD/BaseFields/ScalarField.h"
+#include "TwoD/MassField.h"
 
 class GravitationalPotentialField : public ScalarField {
     public:
@@ -32,6 +32,8 @@ class GravitationalPotentialField : public ScalarField {
         const MassField* m_mass_field; // current mass field for distributed mass source
         
         double m_G;
+
+        std::vector<double> xs, ys;
 
         double computePotential(double x, double y);
 };

@@ -1,11 +1,11 @@
-#include "GravitationalAccelerationField.h"
+#include "TwoD/GravitationalAccelerationField.h"
 
 template <bool UsePotential>
 GravitationalAccelerationField<UsePotential>::GravitationalAccelerationField(int N, 
                     double size, 
                     const MassField& mass_field,
                     double G) 
-                    : TwoDVectorField(N, size),
+                    : VectorField(N, size),
                       m_mass_field(&mass_field),
                       m_G(G),
                       m_potential_field(UsePotential ? GravitationalPotentialField(N, size, &mass_field, G)
@@ -61,6 +61,8 @@ void GravitationalAccelerationField<false>::update()
 template <>
 void GravitationalAccelerationField<true>::update()
 {
+    m_potential_field.update();
+
     const double dx = (m_x_max - m_x_min) / (m_Nx - 1);
     const double dy = (m_y_max - m_y_min) / (m_Ny - 1);
 

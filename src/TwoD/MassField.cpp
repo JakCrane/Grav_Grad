@@ -1,4 +1,4 @@
-#include "MassField.h"
+#include "TwoD/MassField.h"
 #include <iomanip>
 
 MassField::MassField(int N, 

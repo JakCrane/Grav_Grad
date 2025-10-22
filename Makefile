@@ -10,8 +10,12 @@ CXXFLAGS := -std=c++23 -Wall -Wextra -pedantic -O3 -g -march=znver2 -MMD -MP -fo
 LDLIBS   := -fopenmp
 LDFLAGS  :=
 
+# Choose which folder to EXCLUDE (TwoD or ThreeD)
+EXCLUDE ?= ThreeD
+
 # ---- sources/objects ----
-SRCS := $(shell find $(SRC_DIR) -type f -name '*.cpp')
+SRCS_ALL := $(shell find $(SRC_DIR) -type f -name '*.cpp')
+SRCS := $(filter-out $(SRC_DIR)/$(EXCLUDE)/%,$(SRCS_ALL))
 OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
