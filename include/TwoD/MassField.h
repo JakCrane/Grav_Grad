@@ -27,7 +27,7 @@ class MassField : public ScalarField {
         ~MassField() override = default;
 
         /**
-         * @brief Updates the position of the square mass region to center around mass_pos.
+         * @brief Updates the position of the mass region to center around mass_pos.
          */
         void update(std::array<double, 2> mass_pos);
 

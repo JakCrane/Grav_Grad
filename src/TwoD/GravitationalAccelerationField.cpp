@@ -1,10 +1,10 @@
 #include "TwoD/GravitationalAccelerationField.h"
 
 template <bool UsePotential>
-GravitationalAccelerationField<UsePotential>::GravitationalAccelerationField(int N, 
-                    double size, 
+GravitationalAccelerationField<UsePotential>::GravitationalAccelerationField(const int N, 
+                    const double size, 
                     const MassField& mass_field,
-                    double G) 
+                    const double G) 
                     : VectorField(N, size),
                       m_mass_field(&mass_field),
                       m_G(G),

@@ -9,7 +9,7 @@
 template <bool UsePotential>
 class GravitationalAccelerationField : public VectorField {
     public:
-        GravitationalAccelerationField(int N, double size, const MassField& mass_field, double G);
+        GravitationalAccelerationField(const int N, const double size, const MassField& mass_field, const double G);
         ~GravitationalAccelerationField() override = default;
 
         void update();
@@ -17,7 +17,7 @@ class GravitationalAccelerationField : public VectorField {
     private:
 
         const MassField* m_mass_field; // current mass field for distributed mass source
-        double m_G;
+        const double m_G;
         GravitationalPotentialField m_potential_field;
 
         std::array<double, 2> computeAcceleration(const double x, const double y);
