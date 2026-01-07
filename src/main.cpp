@@ -26,11 +26,11 @@ int main() {
 
     // Write CSV header once
     std::ofstream fout_field("logs/acceleration_field.csv");
-    fout_field << "frame,x,y,z,g_x,g_y,g_z\n";
+    fout_field << "frame,x,y,g_x,g_y\n";
     fout_field.close();
 
     std::ofstream fout_mass("logs/mass_field.csv");
-    fout_mass << "frame,x,y,z,mass\n";
+    fout_mass << "frame,x,y,mass\n";
     fout_mass.close();  
     
     const double translation_per_frame = 0.05;
