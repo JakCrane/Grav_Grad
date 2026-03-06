@@ -2,9 +2,9 @@
 #ifdef _OPENMP
 #include <omp.h>
 #endif
-#include "ThreeD/BaseFields/VectorField.h"
-#include "ThreeD/MassField.h"
-#include "ThreeD/GravitationalPotentialField.h"
+#include "Fields/BaseFields/VectorField.h"
+#include "Fields/MassField.h"
+#include "Fields/GravitationalPotentialField.h"
 
 template <bool UsePotential>
 class GravitationalAccelerationField : public VectorField {
@@ -14,6 +14,7 @@ class GravitationalAccelerationField : public VectorField {
 
         void update();
 
+        std::array<double, 3> get_acceleration_at(double x_position, double y_position, double z_position) const;
     private:
 
         const MassField* m_mass_field; // current mass field for distributed mass source

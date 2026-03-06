@@ -1,4 +1,4 @@
-#include "ThreeD/BaseFields/ScalarField.h"
+#include "Fields/BaseFields/ScalarField.h"
 
 
 std::array<double,3> ScalarField::gradientAt(const double x, const double y, const double z) const {

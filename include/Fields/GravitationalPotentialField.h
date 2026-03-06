@@ -1,6 +1,6 @@
 #pragma once
-#include "TwoD/BaseFields/ScalarField.h"
-#include "TwoD/MassField.h"
+#include "Fields/BaseFields/ScalarField.h"
+#include "Fields/MassField.h"
 
 class GravitationalPotentialField : public ScalarField {
     public:
@@ -33,7 +33,7 @@ class GravitationalPotentialField : public ScalarField {
         
         double m_G;
 
-        std::vector<double> xs, ys;
+        std::vector<double> xs, ys, zs; // coordinate arrays for efficiency
 
-        double computePotential(double x, double y);
+        double computePotential(double x, double y, double z);
 };

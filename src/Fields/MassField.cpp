@@ -1,4 +1,4 @@
-#include "ThreeD/MassField.h"
+#include "Fields/MassField.h"
 #include <iomanip>
 
 MassField::MassField(int N, 
@@ -14,6 +14,21 @@ MassField::MassField(int N,
                       m_side_length_y(side_length_y),
                       m_side_length_z(side_length_z),
                       m_type(FieldType::RECTANGULAR)
+{
+    update(initial_position);
+}
+
+MassField::MassField(int N, 
+                    double size, 
+                    double radius, 
+                    double depth,
+                    double density, 
+                    std::array<double, 3> initial_position)  
+                    : ScalarField(N, size),
+                      m_density(density),
+                      m_radius(radius),
+                      m_depth(depth),
+                      m_type(FieldType::CYLINDRICAL)
 {
     update(initial_position);
 }
@@ -37,6 +52,8 @@ void MassField::update(std::array<double, 3> mass_pos)
     clearField();
     if (m_type == FieldType::RECTANGULAR) {
         fillCuboidRegion();
+    } else if (m_type == FieldType::CYLINDRICAL) {
+        fillCylindricalRegion();
     } else if (m_type == FieldType::CIRCULAR) {
         fillSphericalRegion();
     }
@@ -60,6 +77,45 @@ void MassField::fillCuboidRegion()
                     std::abs(z - m_current_position[2]) < m_side_length_z / 2) {
                     m_domain[i * m_Ny * m_Nz + j * m_Nz + k] = m_density * m_dx * m_dy * m_dz;
                 }
+            }
+        }
+    }
+}
+
+void MassField::fillCylindricalRegion()
+{
+    const double radial_smooth = 0.01 * m_radius;
+    const double axial_smooth  = 0.01 * m_depth;
+
+    for (int i = 0; i < m_Nx; ++i) {
+        for (int j = 0; j < m_Ny; ++j) {
+            for (int k = 0; k < m_Nz; ++k) {
+
+                double x = m_x_min + i * m_dx;
+                double y = m_y_min + j * m_dy;
+                double z = m_z_min + k * m_dz;
+
+                double dx = x - m_current_position[0];
+                double dy = y - m_current_position[1];
+                double dz = z - m_current_position[2];
+
+                // Radial distance from cylinder axis (x-axis)
+                double r = std::sqrt(dy*dy + dz*dz);
+
+                // Smooth radial boundary
+                double radial_transition =
+                    0.5 * (1.0 - std::tanh((r - m_radius) / radial_smooth));
+
+                // Smooth axial boundary
+                double axial_transition =
+                    0.5 * (1.0 - std::tanh((std::abs(dx) - m_depth * 0.5) / axial_smooth));
+
+                double transition = radial_transition * axial_transition;
+
+                if (transition < 1e-6) continue;
+
+                m_domain[i * m_Ny * m_Nz + j * m_Nz + k] =
+                    m_density * m_dx * m_dy * m_dz * transition;
             }
         }
     }

@@ -8,3 +8,6 @@ to watch:
         qstat -u $USER
         sleep 10
     done
+
+
+can profile with arm map

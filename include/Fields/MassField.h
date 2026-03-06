@@ -1,5 +1,5 @@
 #pragma once
-#include "ThreeD/BaseFields/ScalarField.h"
+#include "Fields/BaseFields/ScalarField.h"
 
 
 class MassField : public ScalarField {
@@ -15,6 +15,17 @@ class MassField : public ScalarField {
          * @param initial_position Initial center position of the rectangular mass region.
          */
         MassField(int N, double size, double side_length_x, double side_length_y, double side_length_z, double density, std::array<double, 3> initial_position={0.0, 0.0, 0.0});
+
+        /** 
+         * @brief Constructs a field with a cylindrical region of non-zero density centered at initial position.
+         * @param N Number of grid points along each axis.
+         * @param size Physical size of the domain along each axis.
+         * @param radius Radius of the cylindrical mass region.
+         * @param depth Depth of the cylindrical mass region.
+         * @param density Density value within the cylindrical mass region.
+         * @param initial_position Initial center position of the cylindrical mass region.
+         */
+        MassField(int N, double size, double radius, double depth, double density, std::array<double, 3> initial_position={0.0, 0.0, 0.0});
 
         /** 
          * @brief Constructs a field with a circular region of non-zero density centered at initial position.
@@ -39,12 +50,14 @@ class MassField : public ScalarField {
         double m_side_length_y;
         double m_side_length_z;
         double m_radius;
-        enum class FieldType {RECTANGULAR, CIRCULAR};
+        double m_depth;
+        enum class FieldType {RECTANGULAR, CIRCULAR, CYLINDRICAL};
         FieldType m_type;
 
         std::array<double, 3> m_current_position;
 
         void clearField();
         void fillCuboidRegion();
+        void fillCylindricalRegion();
         void fillSphericalRegion();
 };

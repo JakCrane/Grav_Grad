@@ -1,4 +1,4 @@
-#include "ThreeD/GravitationalPotentialField.h"
+#include "Fields/GravitationalPotentialField.h"
 #include <iomanip>
 
 GravitationalPotentialField::GravitationalPotentialField(int N, 

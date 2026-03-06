@@ -1,4 +1,4 @@
-#include "ThreeD/GravitationalAccelerationField.h"
+#include "Fields/GravitationalAccelerationField.h"
 
 template <bool UsePotential>
 GravitationalAccelerationField<UsePotential>::GravitationalAccelerationField(int N, 
@@ -132,6 +132,18 @@ void GravitationalAccelerationField<true>::update()
         }
     }
 
+}
+
+template <bool UsePotential>
+std::array<double,3>
+GravitationalAccelerationField<UsePotential>::get_acceleration_at(
+    double x_position, double y_position, double z_position) const
+{
+    int i = static_cast<int>(std::round((x_position - m_x_min) / m_dx));
+    int j = static_cast<int>(std::round((y_position - m_y_min) / m_dy));
+    int k = static_cast<int>(std::round((z_position - m_z_min) / m_dz));
+
+    return this->valueAt(i, j, k);
 }
 
 // Explicit instantiation for both variants

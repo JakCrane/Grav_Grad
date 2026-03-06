@@ -27,20 +27,6 @@ else
     $(error Unknown COMPILER '$(COMPILER)'. Use COMPILER=intel or COMPILER=amd)
 endif
 
-# Dimensionality: 2 or 3 (default 2)
-DIM ?= 2
-
-# Choose which folder to EXCLUDE (TwoD or ThreeD) based on DIM
-ifeq ($(DIM),2)
-    EXCLUDE ?= ThreeD
-    CXX_DEFINES := -DDIM=2
-else ifeq ($(DIM),3)
-    EXCLUDE ?= TwoD
-    CXX_DEFINES := -DDIM=3
-else
-    $(error Unknown DIM '$(DIM)'. Use DIM=2 or DIM=3)
-endif
-
 # ---- sources/objects ----
 SRCS_ALL := $(shell find $(SRC_DIR) -type f -name '*.cpp')
 SRCS := $(filter-out $(SRC_DIR)/$(EXCLUDE)/%,$(SRCS_ALL))
@@ -62,7 +48,7 @@ clean:
 	rm -rf $(BUILD_DIR) $(TARGET)
 	rm -rf gperf_results*
 	rm -rf grav_sim.*
-	rm -rf *.csv
+	rm -rf logs/*.csv
 
 # quick debug: show what Make thinks the sources/objects are
 list:

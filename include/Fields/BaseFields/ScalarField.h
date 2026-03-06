@@ -1,5 +1,5 @@
 #pragma once
-#include "ThreeD/BaseFields/BaseField.h"
+#include "Fields/BaseFields/BaseField.h"
 
 class ScalarField : public BaseField<double> {
     public:
